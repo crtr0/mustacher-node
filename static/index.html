@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <title>Real Time Twilio MMS Stream</title>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+    <link href='/styles/bootstrap.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.7/slick.css"/>
+
+  </head>
+  <body>
+    <div class='banner'></div>
+    <div class='container-fluid' id='main-content'>
+        <div class='hero'>
+            <p class='hr'>Take a Selfie, Win a Prize!</p>
+            <div id='media_urls' class='slider'></div>
+            <p class='hr'>Send Pic to (206) 981-3338</p>
+        <p class='h1'>
+          powered by
+          <img src='/images/twilio-logo.png'>
+        </p>
+        </div>
+    
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.7/slick.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var count = 0;
+      var socket = io();
+
+      socket.on('connected', function(socket) {
+        console.log("Connected!");
+      });
+
+      socket.on('new_media', function(url) {
+        console.log('Got new image URL: ' + url);
+        //var index = $('#media_urls').slickCurrentSlide() || 0;
+        $('#media_urls')
+          .slickAdd("<div class='image'><img style='margin-left:auto;margin-right:auto;height:600px' src='" + url + "' /></div>");
+          //.slickAdd("<div class='image'><img style='margin-left:auto;margin-right:auto;height:600px' src='" + url + "' /></div>", (index === 0 ? undefined : index+3));
+        //if (index > 0) {
+        //  $('#media_urls').slickGoTo(index+3);
+        //}
+
+      });
+
+      $(document).ready(function(){
+        $('#media_urls').slick({
+            fade: true,
+            infinite: true,
+            cssEase: 'linear',
+            autoplay: true,
+            autoplaySpeed: 3000,
+        });
+      });
+    </script>
+
+  </body>
+</html>
